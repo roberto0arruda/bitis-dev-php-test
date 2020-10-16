@@ -19,4 +19,19 @@ class Offer extends Model
     protected $keyType = 'string';
 
     protected $fillable = ['name', 'discount_percentage', 'expired_at'];
+
+    protected static function booted()
+    {
+        static::created(function ($offer) {
+            $customers = Customer::get('id');
+
+            foreach ($customers as $customer) {
+                Voucher::create([
+                    'customer_id' => $customer->id,
+                    'offer_id' => $offer->id,
+                    'expired_at' => $offer->expired_at
+                ]);
+            }
+        });
+    }
 }

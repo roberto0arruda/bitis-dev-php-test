@@ -20,6 +20,8 @@ class CreateOffersTable extends Migration
             $table->date('expired_at');
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['name', 'expired_at']);
         });
     }
 

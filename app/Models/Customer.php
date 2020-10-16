@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @method static find($id)
  * @method static create(string[] $array)
+ * @method static get(string $string)
  */
 class Customer extends Model
 {
