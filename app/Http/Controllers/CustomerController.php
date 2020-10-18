@@ -2,25 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerRequestValidation;
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Exception;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return AnonymousResourceCollection
+     */
     public function index()
     {
-        return Customer::all();
+        return CustomerResource::collection(Customer::all());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param CustomerRequestValidation $request
      * @return array|Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequestValidation $request)
     {
         try {
             return Customer::create($request->all())->refresh();
@@ -37,21 +44,21 @@ class CustomerController extends Controller
      * Display the specified resource.
      *
      * @param Customer $customer
-     * @return Customer
+     * @return CustomerResource
      */
     public function show(Customer $customer)
     {
-        return $customer;
+        return new CustomerResource($customer);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param CustomerRequestValidation $request
      * @param Customer $customer
      * @return Customer
      */
-    public function update(Request $request, Customer $customer)
+    public function update(CustomerRequestValidation $request, Customer $customer)
     {
         $customer->update($request->all());
 

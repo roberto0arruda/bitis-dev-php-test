@@ -10,18 +10,6 @@ class CustomerControllerTest extends TestCase
 {
     use DatabaseMigrations;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $response = $this->get('/');
-
-        $response->assertStatus(200);
-    }
-
     public function testCheckIfIndexFunctionIsWorking()
     {
         factory(Customer::class, 10)->create();
@@ -30,7 +18,7 @@ class CustomerControllerTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertJsonCount(10);
+            ->assertJsonCount(10, 'data');
     }
 
     public function testCheckIfShowFunctionIsWorking()
@@ -40,7 +28,14 @@ class CustomerControllerTest extends TestCase
         $response = $this->getJson(route('customers.show', ['customer' => $customer->id]));
         $response
             ->assertStatus(200)
-            ->assertJson($customer->toArray());
+            ->assertJsonFragment([
+                'data' => [
+                    'id' => $customer->id,
+                    'name' => $customer->name,
+                    'email' => $customer->email,
+                    'vouchers' => []
+                ]
+            ]);
 
         $response = $this->getJson(route('customers.show', ['customer' => 2]));
 

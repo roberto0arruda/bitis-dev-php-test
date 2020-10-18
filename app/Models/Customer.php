@@ -20,4 +20,9 @@ class Customer extends Model
     protected $keyType = 'string';
 
     protected $fillable = ['name', 'email'];
+
+    public function validVouchers()
+    {
+        return $this->hasMany(Voucher::class)->unused()->notExpired();
+    }
 }
