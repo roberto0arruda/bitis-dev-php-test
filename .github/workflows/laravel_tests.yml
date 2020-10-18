@@ -43,7 +43,7 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: php artisan test #vendor/bin/phpunit
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: laravel
           DB_USER: root
