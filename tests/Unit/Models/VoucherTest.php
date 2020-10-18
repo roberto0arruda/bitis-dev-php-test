@@ -21,11 +21,16 @@ class VoucherTest extends TestCase
 
     }
 
-    public function testCheckIfOfferIsUsingTraits()
+    public function testCheckIfVoucherIsUsingTraits()
     {
         $traits = [SoftDeletes::class];
-        $offerTraits = array_keys(class_uses(Voucher::class));
-        $this->assertEquals($traits, $offerTraits);
+        $voucherTraits = array_keys(class_uses(Voucher::class));
+        $this->assertEquals($traits, $voucherTraits);
+    }
+
+    public function testCheckIfIncrementingAttributeIsFalse()
+    {
+        $this->assertFalse($this->voucher->incrementing);
     }
 
     public function testCheckIfDatesAttributeIsCorrect()
