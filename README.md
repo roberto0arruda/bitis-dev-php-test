@@ -1,61 +1,67 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Projeto Bitis - Dev PHP
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Projeto desenvolvido para conceito de avaliação pela [Bitis](https://www.bitis.com.br/).
 
-## About Laravel
+Para esse projeto, as principias tecnologias utilizadas foram:
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+|         |Link                                             |
+|---------|-------------------------------------------------|
+|Docker   |<https://docs.docker.com/engine/install/ubuntu/> |
+|PHP      |<https://php.net/>                               |
+|Laravel  |<https://laravel.com/>                           |
+|PHPUnit  |<https://phpunit.de/>                            |
+|Postman  |<https://www.postman.com/>                       |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> Obs.: Tendo em vista que o projeto foi desenvolvido para executar em ambiente dockerizado, as instruções a seguir, levarão em consideração que, o [Docker](https://docs.docker.com/engine/install/ubuntu/) e [Docker Compose](https://docs.docker.com/compose/install/) já encontram-se devidamente instalados.
+> Contudo, a utilização ou não do [Docker](https://docs.docker.com/engine/install/ubuntu/) fica a critério do testador da aplicação.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[Postman docs](https://documenter.getpostman.com/view/8093065/TVYAg16D)
 
-## Learning Laravel
+## Docker
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+> Na raiz do projeto sera copiado o arquivo `.env.example` para o arquivo `.env`, que contém informações inerentes para a aplicação, por padrão a aplicação está acessível em `localhost:8000`, com um path `/api/nome_do_recurso`.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Iniciando ambiente do projeto
+    > Com o terminal, navegue até a pasta raiz do projeto (`bitis-dev-php-test`) e execute o comando abaixo. Ao final do processo, deverá aparecer um `log` no terminal. Nesse ponto, a `api` já deve estar acessíveis em `localhost` na porta `8000`, caso as mesmas não tenham sido modificadas no arquivo `docker-compose.yml` da raiz projeto.
 
-## Laravel Sponsors
+    ```bash
+    docker-compose up -d
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. configs do projeto
+    > Para continuar a config do projeto execute.
 
-### Premium Partners
+    ```bash
+    docker-compose exec api bash
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+    > apos o passo anterior rode mais dois comando para copiar o env e instalar os pacotes que são:
 
-## Contributing
+    ```bash
+    cp .env.example .env && composer install && php artisan key:generate
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    > use este comando para rodar os testes automatizados:
 
-## Code of Conduct
+    ```bash
+    php artisan test
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    > quando finalizar a instalação execute mais este comando abaixo e já poderá desfrutar da api desenvolvida.
 
-## Security Vulnerabilities
+    ```bash
+    php artisan migrate
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    > e se quiser pode rodar uma seed para alguns clientes.
 
-## License
+    ```bash
+    php artisan db:seed --class=CustomerSeeder
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+3. Derrubar os containers
+    > Para finalizar os containers, basta executar no mesmo terminal `Ctrl + c`, por segurança, execute o comando abaixo.
+
+    ```bash
+    docker-compose down
+    ```

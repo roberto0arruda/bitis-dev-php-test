@@ -1,0 +1,50 @@
+name: Run Laravel Tests
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'develop'
+
+jobs:
+  laravel-tests-with-db:
+    name: Laravel run tests
+    runs-on: ubuntu-latest
+    container:
+      image: roberto0arruda/php-fpm
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: laravel
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Laravel Setup - Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --prefer-dist
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: php artisan test #vendor/bin/phpunit
+        env:
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: laravel
+          DB_USER: root
+          DB_PASSWORD:
