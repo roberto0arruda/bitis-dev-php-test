@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OfferRequestValidation;
 use App\Models\Offer;
 use Exception;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class OfferController extends Controller
@@ -23,10 +23,10 @@ class OfferController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param OfferRequestValidation $request
      * @return array|Response
      */
-    public function store(Request $request)
+    public function store(OfferRequestValidation $request)
     {
         try {
             return Offer::create($request->all())->refresh();
@@ -50,15 +50,14 @@ class OfferController extends Controller
         return $offer;
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
+     * @param OfferRequestValidation $request
      * @param Offer $offer
      * @return Offer|Response
      */
-    public function update(Request $request, Offer $offer)
+    public function update(OfferRequestValidation $request, Offer $offer)
     {
         $offer->update($request->all());
 

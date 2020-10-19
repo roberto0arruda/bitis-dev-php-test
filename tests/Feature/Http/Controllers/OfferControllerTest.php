@@ -83,7 +83,8 @@ class OfferControllerTest extends TestCase
         $response = $this->putJson(
             route('offers.update', ['offer' => $offer->id]),
             [
-                'name' => 'test_update'
+                'name' => 'test_update',
+                'expired_at' => $dt
             ]
         );
 
